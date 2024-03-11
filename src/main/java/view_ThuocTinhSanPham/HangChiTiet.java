@@ -4,6 +4,8 @@
  */
 package view_ThuocTinhSanPham;
 
+import utilities.MsgBox;
+
 /**
  *
  * @author Nong_Tien_Son
@@ -198,8 +200,36 @@ public class HangChiTiet extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
+        if(kiemTraTrong()){
+            
+        }
     }//GEN-LAST:event_btnAddActionPerformed
-
+    private Boolean kiemTraTrong(){
+        if(txtMaHang.getText().trim().equals("")){
+            MsgBox.alert(this, "Bạn chưa nhập mã hãng!");
+            return false;
+        }
+//        if(txtNgayTao.getDate().toString().equals("")){
+//            MsgBox.alert(this, "Bạn hãy chọn ngày tạo!");
+//            return false;
+//        }
+//        if(txtNgaySua.getDate().toString().equals("")){
+//            MsgBox.alert(this, "Bạn hãy chọn ngày sửa!");
+//        }
+           if(rdHoatDong.isSelected() == false){
+               if(rdKhongHoatDong.isSelected() == false){
+                   MsgBox.alert(this, "Mời bạn chọn trạng thái!");
+                   return false;
+               }
+           }
+           if(txtMoTa.getText().trim().equals("")){
+               MsgBox.alert(this, "Bạn hãy nhập mô tả!");
+               return false;
+           }
+        
+        return true;
+                
+    }
     /**
      * @param args the command line arguments
      */

@@ -8,6 +8,6 @@ package controller;
  *
  * @author Khanh
  */
-public class MaXacNhan {
+public class Testgit {
     
 }
