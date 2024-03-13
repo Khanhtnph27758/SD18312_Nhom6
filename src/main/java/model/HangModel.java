@@ -11,7 +11,8 @@ import java.sql.Date;
  * @author Khanh
  */
 public class HangModel {
-    private String maHang;
+   private String maHang;
+    private String tenHang;
     private Boolean trangThai;
     private Date ngayTao;
     private Date ngaySua;
@@ -20,8 +21,9 @@ public class HangModel {
     public HangModel() {
     }
 
-    public HangModel(String maHang, Boolean trangThai, Date ngayTao, Date ngaySua, String moTa) {
+    public HangModel(String maHang, String tenHang, Boolean trangThai, Date ngayTao, Date ngaySua, String moTa) {
         this.maHang = maHang;
+        this.tenHang = tenHang;
         this.trangThai = trangThai;
         this.ngayTao = ngayTao;
         this.ngaySua = ngaySua;
@@ -34,6 +36,14 @@ public class HangModel {
 
     public void setMaHang(String maHang) {
         this.maHang = maHang;
+    }
+
+    public String getTenHang() {
+        return tenHang;
+    }
+
+    public void setTenHang(String tenHang) {
+        this.tenHang = tenHang;
     }
 
     public Boolean getTrangThai() {
@@ -67,6 +77,8 @@ public class HangModel {
     public void setMoTa(String moTa) {
         this.moTa = moTa;
     }
+   
+    
     
     
 }

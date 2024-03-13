@@ -35,6 +35,7 @@ public class HangController {
              while(resultSet.next()){
                  hang = new HangModel();
                  hang.setMaHang(resultSet.getString("MaHang"));
+                 hang.setTenHang(resultSet.getString("TenHang"));
                  hang.setTrangThai(resultSet.getBoolean("TrangThai"));
                  hang.setNgayTao(resultSet.getDate("NgayTao"));
                  hang.setNgaySua(resultSet.getDate("NgaySua"));
@@ -77,22 +78,25 @@ public class HangController {
              connection = DatabaseConnection.getConnection();
              String caulenhthem = new String("INSERT INTO [dbo].[Hang]\n" +
 "           ([MaHang]\n" +
+"           ,[TenHang]\n" +
 "           ,[TrangThai]\n" +
 "           ,[NgayTao]\n" +
 "           ,[NgaySua]\n" +
 "           ,[MoTa])\n" +
 "     VALUES\n" +
-"           (?,\n" +
+"           (?,\n" +                    
+"           ?,\n" +
 "           ?,\n" +
 "           ?,\n" +
 "           ?,\n" +
 "           ?)");
              statement = connection.prepareStatement(caulenhthem);
              statement.setString(1, hangtruyenvao.getMaHang());
-             statement.setBoolean(2, hangtruyenvao.getTrangThai());
-             statement.setDate(3, hangtruyenvao.getNgayTao());
-             statement.setDate(4, hangtruyenvao.getNgaySua());
-             statement.setString(5, hangtruyenvao.getMoTa());
+             statement.setString(2, hangtruyenvao.getTenHang());
+             statement.setBoolean(3, hangtruyenvao.getTrangThai());
+             statement.setDate(4, hangtruyenvao.getNgayTao());
+             statement.setDate(5, hangtruyenvao.getNgaySua());
+             statement.setString(6, hangtruyenvao.getMoTa());
              statement.executeUpdate();
              return true;
         } catch (Exception e) {
@@ -132,18 +136,21 @@ public class HangController {
             connection = DatabaseConnection.getConnection();
             String caulenhUpdate = new String("UPDATE [dbo].[Hang]\n" +
 "   SET \n" +
-"      [TrangThai] = ?\n" +
+"      [TenHang] = ?\n" +                    
+"      ,[TrangThai] = ?\n" +
 "      ,[NgayTao] = ?\n" +
 "      ,[NgaySua] = ?\n" +
 "      ,[MoTa] = ?\n" +
 " WHERE MaHang=?");
              statement = connection.prepareStatement(caulenhUpdate);
 //             statement.setString(1, hangModel.getMaHang());
-             statement.setBoolean(1, hangModel.getTrangThai());
-             statement.setDate(2, hangModel.getNgayTao());
-             statement.setDate(3, hangModel.getNgaySua());
-             statement.setString(4, hangModel.getMoTa());
-             statement.setString(5, hangModel.getMaHang());
+               statement.setString(1, hangModel.getMaHang());
+             statement.setBoolean(2, hangModel.getTrangThai());
+             statement.setDate(3, hangModel.getNgayTao());
+             statement.setDate(4, hangModel.getNgaySua());
+             System.out.println(hangModel.getNgaySua()+"MeoMeo");
+             statement.setString(5, hangModel.getMoTa());
+             statement.setString(6, hangModel.getMaHang());
              statement.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -172,5 +179,56 @@ public class HangController {
                 }
             }
         }
+    }
+    
+     public List<HangModel> timKiemHangTheoMa(String matimkiem) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        HangModel hang = null;
+
+        List<HangModel> danhsachHang = new ArrayList<>();
+        try {
+            connection = DatabaseConnection.getConnection();
+            String caulenhtruyvan = new String("select * from Hang where MaHang like ?");
+             statement = connection.prepareStatement(caulenhtruyvan);
+             statement.setString(1,matimkiem );
+             resultSet = statement.executeQuery();
+             while(resultSet.next()){
+                 hang = new HangModel();
+                 hang.setMaHang(resultSet.getString("MaHang"));
+                 hang.setTenHang(resultSet.getString("TenHang"));
+                 hang.setTrangThai(resultSet.getBoolean("TrangThai"));
+                 hang.setNgayTao(resultSet.getDate("NgayTao"));
+                 hang.setNgaySua(resultSet.getDate("NgaySua"));
+                 hang.setMoTa(resultSet.getString("MoTa"));
+                 danhsachHang.add(hang);
+             }
+             return danhsachHang;
+        } catch (Exception e) {
+        } finally {
+             if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }

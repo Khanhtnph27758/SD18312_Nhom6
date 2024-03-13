@@ -15,9 +15,11 @@ import model.HangModel;
  * @author Nong_Tien_Son
  */
 public class Hang extends javax.swing.JFrame {
+
     HangController hangController = new HangController();
     List<HangModel> danhSachHang = new ArrayList<>();
     public static HangModel hangstatic = new HangModel();
+
     /**
      * Creates new form Hang
      */
@@ -25,23 +27,25 @@ public class Hang extends javax.swing.JFrame {
         initComponents();
         hienThiHang();
     }
-    public void hienThiHang(){
-        DefaultTableModel dtm = (DefaultTableModel)tblHangsx.getModel();
+
+    public void hienThiHang() {
+        DefaultTableModel dtm = (DefaultTableModel) tblHangsx.getModel();
         dtm.setRowCount(0);
-        
+
         danhSachHang = hangController.timkiemHang();
         for (HangModel hangModel : danhSachHang) {
             dtm.addRow(new Object[]{
-            hangModel.getMaHang(),
-     
-//            hangModel.getNgayTao(),
-            hangModel.getNgaySua(),
-//            hangModel.getMoTa()
-                   hangModel.getTrangThai()?"Hoạt động":"Không hoạt động"
+                hangModel.getMaHang(),
+                hangModel.getTenHang(),
+                hangModel.getNgayTao(),
+                hangModel.getNgaySua(),
+                hangModel.getMoTa(),
+                hangModel.getTrangThai() ? "Hoạt động" : "Không hoạt động"
             });
         }
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -88,6 +92,11 @@ public class Hang extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnFind.setText("FIND");
+        btnFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindActionPerformed(evt);
+            }
+        });
 
         btnRest.setText("REST");
         btnRest.addActionListener(new java.awt.event.ActionListener() {
@@ -144,13 +153,14 @@ public class Hang extends javax.swing.JFrame {
 
         tblHangsx.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Tên", "Ngày Sửa", "Trạng Thái"
+                "Mã", "Tên", "Trạng Thái", "Ngày Tạo", "Ngày Sửa", "Mô Tả"
             }
         ));
         tblHangsx.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -224,10 +234,31 @@ public class Hang extends javax.swing.JFrame {
         suaHangChiTiet.setVisible(true);
     }//GEN-LAST:event_tblHangsxMouseClicked
 
+    private void btnFindActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindActionPerformed
+        // TODO add your handling code here:
+        if (txtTimKiemHang.getText().trim().equals("")==false) {
+            List<HangModel> hangModels = hangController.timKiemHangTheoMa(txtTimKiemHang.getText());
+            DefaultTableModel dtm = (DefaultTableModel) tblHangsx.getModel();
+        dtm.setRowCount(0);
+
+        hangModels = hangController.timKiemHangTheoMa(txtTimKiemHang.getText());
+        for (HangModel hangModel : hangModels) {
+            dtm.addRow(new Object[]{
+                hangModel.getMaHang(),
+                hangModel.getTenHang(),
+                hangModel.getNgayTao(),
+                hangModel.getNgaySua(),
+                hangModel.getMoTa(),
+                hangModel.getTrangThai() ? "Hoạt động" : "Không hoạt động"
+            });
+        }
+        }
+    }//GEN-LAST:event_btnFindActionPerformed
+
     
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
